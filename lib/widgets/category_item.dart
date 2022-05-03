@@ -1,18 +1,26 @@
 import 'package:flutter/material.dart';
 
-import '../screens/meals_screen.dart';
-
 class CategoryItem extends StatelessWidget {
-  final String id;
-  final String title;
-  final Color color;
+  final String _id;
+  final String _title;
+  final Color _color;
+  final String _route;
+  final Function _setFavouriteState;
 
-  CategoryItem(this.id, this.title, this.color, {Key? key}) : super(key: key);
+  CategoryItem(
+      this._id, this._title, this._color, this._route, this._setFavouriteState,
+      {Key? key})
+      : super(key: key);
 
   _selectCategory(BuildContext context) {
-    Navigator.of(context).pushNamed(MealsScreen.route, arguments: {
-      'id': id,
-      'title': title,
+    print('get fav');
+    Navigator.of(context).pushNamed(_route, arguments: {
+      'id': _id,
+      'title': _title,
+    }).then((id) {
+      print('set fav');
+      print(_setFavouriteState);
+      _setFavouriteState();
     });
   }
 
@@ -25,14 +33,14 @@ class CategoryItem extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(15),
         child: Text(
-          title,
+          _title,
           style: Theme.of(context).textTheme.headline5,
         ),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              this.color.withOpacity(0.7),
-              this.color,
+              _color.withOpacity(0.7),
+              _color,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,

@@ -3,9 +3,14 @@ import 'package:flutter/material.dart';
 import '../main.dart';
 import '../dummy_data.dart';
 
-class MealScreen extends StatelessWidget {
-  static const route = MyApp.route + 'meal';
+class MealScreen extends StatefulWidget {
+  static const Route = MyApp.Route + 'meal';
 
+  @override
+  State<MealScreen> createState() => _MealScreenState();
+}
+
+class _MealScreenState extends State<MealScreen> {
   @override
   Widget build(BuildContext context) {
     final routeArgs =

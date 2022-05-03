@@ -4,18 +4,22 @@ import '../screens/meal_screen.dart';
 import '../models/meal.dart';
 
 class MealItem extends StatelessWidget {
-  final Meal meal;
-  final Color color;
-  final Function removeMeal;
+  final Meal _meal;
+  final Color _color;
+  final Function _removeMeal;
+  final Function _toggleFavourite;
+  final List<String> _favourites;
 
-  MealItem(this.meal, this.color, this.removeMeal, {Key? key})
+  MealItem(this._meal, this._color, this._removeMeal, this._toggleFavourite,
+      this._favourites,
+      {Key? key})
       : super(key: key);
 
   _selectMeal(BuildContext context) {
-    Navigator.of(context).pushNamed(MealScreen.route, arguments: {
-      'id': meal.id,
+    Navigator.of(context).pushNamed(MealScreen.Route, arguments: {
+      'id': _meal.id,
     }).then((id) {
-      if (id != null) removeMeal(id);
+      if (id != null) _removeMeal(id);
     });
   }
 
@@ -39,9 +43,9 @@ class MealItem extends StatelessWidget {
                     topLeft: Radius.circular(15),
                     topRight: Radius.circular(15),
                   ),
-                  child: meal.imageUrl != ''
+                  child: _meal.imageUrl != ''
                       ? Image.network(
-                          meal.imageUrl!,
+                          _meal.imageUrl!,
                           width: double.infinity,
                           height: 250,
                           fit: BoxFit.cover,
@@ -62,7 +66,7 @@ class MealItem extends StatelessWidget {
                       horizontal: 20,
                     ),
                     child: Text(
-                      meal.title,
+                      _meal.title,
                       style: TextStyle(
                         fontSize: 26,
                         color: Colors.white,
@@ -85,7 +89,7 @@ class MealItem extends StatelessWidget {
                       SizedBox(
                         width: 6,
                       ),
-                      Text(meal.duration.toString()),
+                      Text(_meal.duration.toString()),
                     ],
                   ),
                   Row(
@@ -94,7 +98,7 @@ class MealItem extends StatelessWidget {
                       SizedBox(
                         width: 6,
                       ),
-                      Text(meal.complexity.name),
+                      Text(_meal.complexity.name),
                     ],
                   ),
                   Row(
@@ -103,15 +107,31 @@ class MealItem extends StatelessWidget {
                       SizedBox(
                         width: 6,
                       ),
-                      Text(meal.affordability.name),
+                      Text(_meal.affordability.name),
                     ],
+                  ),
+                  InkWell(
+                    onTap: () => _toggleFavourite(_meal.id),
+                    splashColor: Theme.of(context).primaryColor,
+                    child: Row(
+                      children: <Widget>[
+                        Icon(Icons.star,
+                            color: _favourites.contains(_meal.id)
+                                ? Theme.of(context).primaryColor
+                                : Colors.grey),
+                        SizedBox(
+                          width: 6,
+                        ),
+                        Text('Fav!'),
+                      ],
+                    ),
                   ),
                 ],
               ),
             )
           ],
         ),
-        color: color,
+        color: _color,
         // decoration: BoxDecoration(
         //   gradient: LinearGradient(
         //     colors: [

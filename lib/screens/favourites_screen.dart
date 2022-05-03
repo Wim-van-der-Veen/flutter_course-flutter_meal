@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import '../main.dart';
 
 class FavouritesScreen extends StatelessWidget {
-  static const route = MyApp.route + 'favourites';
+  static const Route = MyApp.Route + 'favourites';
 
   const FavouritesScreen({Key? key}) : super(key: key);
 

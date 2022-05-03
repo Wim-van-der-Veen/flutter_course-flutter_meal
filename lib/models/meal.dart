@@ -1,3 +1,5 @@
+import 'option.dart';
+
 enum Complexity {
   Simple,
   Challenging,
@@ -41,4 +43,26 @@ class Meal {
     this.isVegetarian = false,
     this.isVegan = false,
   });
+
+  Map<String, bool> _toMap() {
+    return {
+      'isGlutenFree': isGlutenFree,
+      'isLactoseFree': isLactoseFree,
+      'isVegetarian': isVegetarian,
+      'isVegan': isVegan,
+    };
+  }
+
+  bool getOption(optionName) {
+    final _map = _toMap();
+    return _map.containsKey(optionName) ? _map[optionName]! : false;
+  }
+
+  bool satisfiesOptions(List<Option> options) {
+    print(title);
+    print(_toMap());
+    options.forEach((option) => print('${option.name}: ${option.value}'));
+    return options
+        .every((option) => !(option.value && !getOption(option.name)));
+  }
 }

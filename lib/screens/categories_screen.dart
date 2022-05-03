@@ -1,24 +1,34 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_meal/dummy_data.dart';
 
 import '../main.dart';
+import '../models/category.dart';
 import '../widgets/category_item.dart';
 
 class CategoriesScreen extends StatelessWidget {
-  static const route = MyApp.route + 'categories';
+  static const Route = MyApp.Route + 'categories';
 
-  const CategoriesScreen({Key? key}) : super(key: key);
+  final List<Category> _availableCategories;
+  final String _mealsRoute;
+  final Function _setFavouriteState;
+
+  const CategoriesScreen(
+      this._availableCategories, this._mealsRoute, this._setFavouriteState,
+      {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    print(_setFavouriteState);
     return GridView(
       padding: const EdgeInsets.all(25),
-      children: DUMMY_CATEGORIES
+      children: _availableCategories
           .map(
             (catData) => CategoryItem(
               catData.id,
               catData.title,
               catData.color,
+              _mealsRoute,
+              _setFavouriteState,
             ),
           )
           .toList(),

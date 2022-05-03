@@ -1,21 +1,67 @@
 import 'package:flutter/material.dart';
 
+import '../dummy_data.dart';
+import '../models/category.dart';
+import '../models/meal.dart';
 import '../widgets/main-drawer.dart';
 import './categories_screen.dart';
+import './meals_screen.dart';
 import './favourites_screen.dart';
 
 class TabsScreen extends StatefulWidget {
-  const TabsScreen({Key? key}) : super(key: key);
+  final List<Category> _availableMealsCategories;
+  final List<Category> _favouriteMealsCategories;
+  final List<String> _favouriteIds;
+
+  const TabsScreen(this._availableMealsCategories,
+      this._favouriteMealsCategories, this._favouriteIds,
+      {Key? key})
+      : super(key: key);
 
   @override
-  State<TabsScreen> createState() => _TabsScreenState();
+  State<TabsScreen> createState() => _TabsScreenState(
+      _availableMealsCategories, _favouriteMealsCategories, _favouriteIds);
 }
 
 class _TabsScreenState extends State<TabsScreen> {
-  final List<Widget> _pages = [
-    CategoriesScreen(),
-    FavouritesScreen(),
-  ];
+  final List<Category> _availableMealsCategories;
+  List<Category> _favouriteMealsCategories;
+  final List<String> _favouriteIds;
+  List<Widget> _pages = [];
+
+  _TabsScreenState(this._availableMealsCategories,
+      this._favouriteMealsCategories, this._favouriteIds) {}
+
+  void _setFavouriteState() {
+    print('setfav');
+    setState(() {
+      List<Meal> _favouriteMeals =
+          DUMMY_MEALS.where((meal) => _favouriteIds.contains(meal.id)).toList();
+      print(_favouriteMeals.length);
+      _favouriteMealsCategories = DUMMY_CATEGORIES
+          .where((category) => (_favouriteMeals
+                  .where((meal) => meal.categories.contains(category.id))
+                  .length >
+              0))
+          .toList();
+      print('fav ${_favouriteMealsCategories.length}');
+      didChangeDependencies();
+    });
+  }
+
+  @override
+  void didChangeDependencies() {
+    print('dSC ${_setFavouriteState}');
+    _pages = [
+      CategoriesScreen(
+          _availableMealsCategories, MealsScreen.Route, _setFavouriteState),
+      CategoriesScreen(_favouriteMealsCategories, FavouritesScreen.Route,
+          _setFavouriteState),
+    ];
+
+    super.didChangeDependencies();
+  }
+
   int _selectedPageIndex = 0;
 
   void _selectPage(int index) {

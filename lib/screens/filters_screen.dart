@@ -1,42 +1,17 @@
 import 'package:flutter/material.dart';
 
 import '../main.dart';
+import '../models/option.dart';
 import '../widgets/main-drawer.dart';
 
-class FiltersScreen extends StatefulWidget {
-  static const route = MyApp.route + 'filters';
+class FiltersScreen extends StatelessWidget {
+  static const Route = MyApp.Route + 'filters';
 
-  const FiltersScreen({Key? key}) : super(key: key);
+  final List<Option> switchables;
+  final Function onChanged;
 
-  @override
-  State<FiltersScreen> createState() => _FiltersScreenState();
-}
-
-class Option {
-  final String name;
-  bool value;
-  Option(this.name, this.value);
-}
-
-class _FiltersScreenState extends State<FiltersScreen> {
-  List<Option> _switchables = [
-    Option(
-      'gluten free',
-      false,
-    ),
-    Option(
-      'lactose free',
-      false,
-    ),
-    Option(
-      'vegetarian',
-      false,
-    ),
-    Option(
-      'vegan',
-      false,
-    ),
-  ];
+  const FiltersScreen(this.switchables, this.onChanged, {Key? key})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +27,11 @@ class _FiltersScreenState extends State<FiltersScreen> {
           ),
           Expanded(
             child: ListView(
-              children: _switchables
+              children: switchables
                   .map((option) => SwitchListTile(
-                        title: Text(option.name),
-                        value: option.value,
-                        onChanged: (newState) =>
-                            setState(() => option.value = newState),
-                      ))
+                      title: Text(option.title),
+                      value: option.value,
+                      onChanged: (newValue) => onChanged(option, newValue)))
                   .toList(),
             ),
           )

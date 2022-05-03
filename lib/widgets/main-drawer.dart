@@ -37,7 +37,7 @@ class MainDrawer extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             onTap: () =>
-                Navigator.of(context).pushReplacementNamed(MyApp.route),
+                Navigator.of(context).pushReplacementNamed(MyApp.Route),
           ),
           SizedBox(
             height: 20,
@@ -52,7 +52,7 @@ class MainDrawer extends StatelessWidget {
                   fontWeight: FontWeight.bold),
             ),
             onTap: () =>
-                Navigator.of(context).pushReplacementNamed(FiltersScreen.route),
+                Navigator.of(context).pushReplacementNamed(FiltersScreen.Route),
           ),
         ],
       ),
